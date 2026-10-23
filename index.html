@@ -1612,27 +1612,125 @@ function exportCards(){
   if(downloadJSON(data,'字卡库备份_'+new Date().toISOString().slice(0,10)+'.json'))toast('字卡备份已导出');
 }
 $('cpExport').onclick=exportCards;
+function isReplyGroupBackup(d){
+  if(!d||typeof d!=='object')return false;
+  if(d._groupExport===true)return true;
+  if(Array.isArray(d.customReplies)&&!Array.isArray(d.cards))return true;
+  if(Array.isArray(d.groups)&&d.groups.some(g=>g&&Array.isArray(g.items)))return true;
+  return false;
+}
+function normalizeCardType(t,content){
+  if(t&&['text','emoji','image','status','pat'].includes(t))return t;
+  if(typeof content==='string'&&EMO.test(content.trim()))return 'emoji';
+  return 'text';
+}
+function cardKey(type,content,group){return type+'\x1f'+String(content)+'\x1f'+group}
+function applyCardImport(payload,mode){
+  const {groups:inGroups,cards:inCards}=payload;
+  let ng=0,n=0,skip=0;
+  if(mode==='overwrite'){
+    const keepPublic=S.groups.find(g=>g.id==='public')||{id:'public',name:'公共（未分组）',enabled:true};
+    const oldIds=new Set(S.groups.map(g=>g.id));
+    S.groups=[keepPublic];
+    S.cards=S.cards.filter(c=>c.type==='mypat');
+    G.contacts.forEach(c=>{c.sel=(c.sel||[]).filter(id=>id==='public')});
+    oldIds.forEach(id=>{if(id!=='public'){/* cleared */}});
+  }
+  const map={public:'public'};
+  const existingKeys=new Set(S.cards.filter(c=>c.type!=='mypat').map(c=>cardKey(c.type,c.content,c.group)));
+  (inGroups||[]).forEach(g=>{
+    if(!g||!g.name||g.id==='public'||String(g.name)==='公共（未分组）')return;
+    let x=S.groups.find(y=>y.name===g.name);
+    if(!x){
+      x={id:'g'+Date.now()+Math.random().toString(36).slice(2,6),name:String(g.name).slice(0,40),enabled:g.enabled!==false};
+      addGroup(x);ng++;
+    }else if(g.enabled===false){x.enabled=false}
+    map[g.id!=null?g.id:g.name]=x.id;
+    map[g.name]=x.id;
+  });
+  (inCards||[]).forEach(c=>{
+    if(!c||c.content==null||c.content==='')return;
+    const content=String(c.content);
+    const type=normalizeCardType(c.type,content);
+    if(!['text','emoji','image','status','pat'].includes(type))return;
+    let gid='public';
+    if(c.group!=null&&map[c.group]!=null)gid=map[c.group];
+    else if(c.groupName&&map[c.groupName]!=null)gid=map[c.groupName];
+    const key=cardKey(type,content,gid);
+    if(existingKeys.has(key)){skip++;return}
+    existingKeys.add(key);
+    const k=mk(type,content,gid);k.enabled=c.enabled!==false;S.cards.push(k);n++;
+  });
+  save();renderCards();
+  const parts=['已导入 '+n+' 张字卡'];
+  if(skip)parts.push('跳过重复 '+skip+' 张');
+  if(ng)parts.push('新增 '+ng+' 个分组');
+  if(mode==='overwrite')parts.unshift('已覆盖后');
+  toast(parts.join('，'));
+}
+function parseCardBackup(d){
+  if(isReplyGroupBackup(d)){
+    const groups=[],cards=[],seen=new Set();
+    const list=Array.isArray(d.groups)?d.groups:[];
+    list.forEach(g=>{
+      if(!g||!g.name)return;
+      const gid=g.id!=null?g.id:('tmp_'+g.name);
+      groups.push({id:gid,name:String(g.name),enabled:true});
+      (Array.isArray(g.items)?g.items:[]).forEach(item=>{
+        if(item==null||item==='')return;
+        const content=String(item).trim();
+        if(!content)return;
+        const type=normalizeCardType(null,content);
+        const key=cardKey(type,content,gid);
+        if(seen.has(key))return;seen.add(key);
+        cards.push({type,content,group:gid,enabled:true});
+      });
+    });
+    if(Array.isArray(d.customReplies)&&d.customReplies.length){
+      const hasGrouped=cards.length>0;
+      d.customReplies.forEach(item=>{
+        if(item==null||item==='')return;
+        const content=String(item).trim();
+        if(!content)return;
+        const type=normalizeCardType(null,content);
+        if(hasGrouped){
+          const already=cards.some(c=>c.content===content&&c.type===type);
+          if(already)return;
+          const key=cardKey(type,content,'public');
+          if(seen.has(key))return;seen.add(key);
+          cards.push({type,content,group:'public',enabled:true});
+        }else{
+          const key=cardKey(type,content,'public');
+          if(seen.has(key))return;seen.add(key);
+          cards.push({type,content,group:'public',enabled:true});
+        }
+      });
+    }
+    if(!cards.length)throw Error('empty');
+    return {groups,cards,label:'回复分组备份'};
+  }
+  const cs=Array.isArray(d)?d:d.cards;
+  if(!Array.isArray(cs))throw Error('no cards');
+  const groups=Array.isArray(d.groups)?d.groups:[];
+  return {groups,cards:cs,label:'字卡库备份'};
+}
 $('cpImport').onclick=()=>{
   const f=document.createElement('input');f.type='file';f.accept='.json,application/json';
   f.onchange=()=>{const file=f.files&&f.files[0];if(!file)return;const rd=new FileReader();
     rd.onload=()=>{try{
-      const d=JSON.parse(rd.result);const cs=Array.isArray(d)?d:d.cards;if(!Array.isArray(cs))throw Error('no cards');
-      const map={public:'public'};let ng=0;
-      (Array.isArray(d.groups)?d.groups:[]).forEach(g=>{
-        if(!g||g.id==='public'||!g.name)return;
-        let x=S.groups.find(y=>y.name===g.name);
-        if(!x){x={id:'g'+Date.now()+Math.random().toString(36).slice(2,6),name:String(g.name),enabled:g.enabled!==false};addGroup(x);ng++}
-        map[g.id]=x.id;
-      });
-      let n=0;
-      cs.forEach(c=>{
-        if(!c||!['text','emoji','image','status','pat'].includes(c.type)||c.content==null||c.content==='')return;
-        const gid=map[c.group]||'public';
-        if(S.cards.some(y=>y.type===c.type&&y.content===c.content&&y.group===gid))return;
-        const k=mk(c.type,String(c.content),gid);k.enabled=c.enabled!==false;S.cards.push(k);n++;
-      });
-      save();renderCards();toast('已导入 '+n+' 张字卡'+(ng?'，新增 '+ng+' 个分组':''));
-    }catch(e){toast('文件格式不正确，请选择字卡库 JSON 备份')}};
+      const d=JSON.parse(rd.result);
+      const payload=parseCardBackup(d);
+      const tip=h('div','');
+      tip.innerHTML='<p style="margin:0 0 8px">识别为「'+payload.label+'」</p><p style="margin:0 0 8px;color:var(--mute);font-size:14px">共 '+(payload.cards||[]).length+' 条字卡、'+(payload.groups||[]).filter(g=>g&&g.name&&g.id!=='public').length+' 个分组</p><p style="margin:0;color:var(--mute);font-size:13px">叠加导入：合并到现有库，自动跳过重复内容<br>直接覆盖：清空当前字卡库后导入（拍一拍「我的」保留）</p>';
+      modal('导入字卡',b=>b.append(tip),[
+        ['取消'],
+        ['叠加导入',()=>{applyCardImport(payload,'merge')},'primary'],
+        ['直接覆盖',()=>{
+          askYes('确定清空当前字卡库并覆盖导入吗？此操作不可撤销。',()=>applyCardImport(payload,'overwrite'),'确认覆盖');
+          return false;
+        },'danger']
+      ]);
+    }catch(e){toast('文件格式不正确，请选择字卡库或回复分组 JSON 备份')}};
     rd.readAsText(file)};f.click();
 };
 function exportFullBackup(){
