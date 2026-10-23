@@ -6,13 +6,13 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<meta name="apple-mobile-web-app-title" content="聊天">
+<meta name="apple-mobile-web-app-title" content="知念易杳">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>聊天</title>
+<title>知念易杳</title>
 <style>
 :root{--blue:#3b8cf7;--gray:#e9e9eb;--bm:#3b8cf7;--bmc:#fff;--bt:#e9e9eb;--btc:#000;--bg:#fff;--ink:#000;--mute:#8e8e93;--line:#d8d8dc;--glow:rgba(0,0,0,.07);--veil:rgba(255,255,255,.4)}
 @media(prefers-color-scheme:dark){:root{--gray:#262629;--bt:#262629;--btc:#fff;--bg:#000;--ink:#fff;--line:#3a3a3e;--glow:rgba(255,255,255,.05);--veil:rgba(0,0,0,.4)}}
@@ -704,7 +704,7 @@ textarea{padding:8px 0 8px 14px}
   <div class="lacts"><button class="p" id="wSend2">封好寄出</button></div>
 </section>
 <section id="list">
-  <div class="lh"><h1>聊天</h1><div class="lha">
+  <div class="lh"><h1>知念易杳</h1><div class="lha">
     <button id="lCards" aria-label="字卡库"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="13" height="17" rx="2.5"/><path d="M8 8h6M8 12h6M8 16h3"/><path d="M19 7v13a2 2 0 0 1-2 2"/></svg></button>
     <button id="lAdd" aria-label="新建联系人"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
     <button id="lMore" aria-label="更多"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/></svg></button>
@@ -1230,7 +1230,7 @@ function bgTab(body){
   sw('后台保活（循环播放静音音频）','keepAlive',async()=>{G.sys.keepAlive=true;return await startKeep()});
   sw('新消息弹窗通知','notify',askNotify);
   const t=h('button','','发送测试弹窗（5 秒后，请切到后台或锁屏）');
-  t.onclick=()=>{toast('5 秒后弹出');setTimeout(()=>notify('聊天','这是一条测试弹窗','test',true),5000)};
+  t.onclick=()=>{toast('5 秒后弹出');setTimeout(()=>notify('知念易杳','这是一条测试弹窗','test',true),5000)};
   body.append(t);
   body.append(h('div','hint','保活原理：循环播放一段听不见的静音音频，让系统把网页当成「正在播放音乐」，锁屏会出现播放卡片（显示对方头像、昵称和状态），对方的延迟回复才能在后台照常触发。iOS 随时可能回收，不能保证一直在线；开着会多耗一点电，不用时记得关闭。'));
 }

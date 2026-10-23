@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "聊天",
-  "short_name": "聊天",
-  "description": "字卡聊天网站",
+  "name": "知念易杳",
+  "short_name": "知念易杳",
+  "description": "知念易杳 · 字卡聊天",
   "lang": "zh-CN",
   "dir": "ltr",
   "start_url": "./",
