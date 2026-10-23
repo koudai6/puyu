@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.PNG">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <meta name="apple-mobile-web-app-title" content="聊天">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -421,6 +422,192 @@ textarea{padding:8px 0 8px 14px}
  .m.pay.transfer .pay-month,.m.pay.transfer .pay-month::before,.m.pay.transfer .pay-s,.m.pay.transfer .pay-foot{color:#666 !important}
  .m.pay.transfer .pay-foot{border-top-color:#bcbcbc !important}
 }
+/* 加号面板（参考：4 列圆角图标 + 翻页圆点） */
+#pp{flex:none;background:var(--bg);border-top:1px solid var(--line);padding:16px 0 calc(12px + env(safe-area-inset-bottom));-webkit-user-select:none;user-select:none}
+#pp[hidden]{display:none}
+.pp-pages{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.pp-pages::-webkit-scrollbar{display:none}
+.pp-page{flex:0 0 100%;scroll-snap-align:start;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:96px;row-gap:12px;padding:0 12px}
+.pp-it{display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:none;padding:0;color:var(--ink);font:inherit;-webkit-tap-highlight-color:transparent}
+.pp-ic{width:58px;height:58px;border-radius:18px;background:#f6f7fa;border:1px solid #ececf1;display:grid;place-items:center;color:#505057;transition:background .12s}
+.pp-ic svg{width:27px;height:27px}
+.pp-it:active .pp-ic{background:#e9edf4}
+.pp-lb{font-size:13.5px;color:#6c6c73}
+.pp-dots{display:flex;justify-content:center;gap:9px;padding-top:4px}
+.pp-dots i{width:8px;height:8px;border-radius:50%;background:#d9d9de}
+.pp-dots i.on{background:#85858c}
+.plus svg{transition:transform .2s}
+.pp-open .plus svg{transform:rotate(45deg)}
+.pp-open .bar{padding-bottom:8px}
+@media(prefers-color-scheme:dark){
+  #pp{border-top-color:#2c2c30}
+  .pp-ic{background:#242427;border-color:#333338;color:#d0d0d6}
+  .pp-it:active .pp-ic{background:#2e2e33}
+  .pp-lb{color:#9d9da4}
+  .pp-dots i{background:#3a3a3f}.pp-dots i.on{background:#8d8d94}
+}
+/* ========== 传信：黑白极简（ins / 韩系） ========== */
+.pp-ic{position:relative}
+.pp-bd{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;border-radius:9px;background:#0a0a0a;color:#fff;font-size:11px;line-height:18px;text-align:center;padding:0 5px;font-style:normal;font-weight:600}
+.plus.has-l{position:relative}
+.plus.has-l::after{content:"";position:absolute;top:5px;right:5px;width:10px;height:10px;border-radius:50%;background:#e5484d;border:2px solid var(--bg)}
+@media(prefers-color-scheme:dark){.pp-bd{background:#f2f2f2;color:#0a0a0a}}
+.ls{--lbg:#fff;--lki:#0a0a0a;--lmu:#8a8a8e;--ll:#e7e7e7;--lg:#f3f3f3;--ldot:rgba(0,0,0,.09);--lnew:#0a0a0a;--lnewf:#fff;--paper:#fafaf8;--pi:#0c0c0c;--pm:#7d7d7d;--mono:ui-monospace,"SF Mono",Menlo,monospace}
+@media(prefers-color-scheme:dark){.ls{--lbg:#000;--lki:#f5f5f5;--ll:#242424;--lg:#161616;--ldot:rgba(255,255,255,.1);--lnew:#f2f2f2;--lnewf:#0a0a0a}}
+.ls{position:fixed;inset:0;z-index:30;background-color:var(--lbg);color:var(--lki);display:none;flex-direction:column;padding-top:env(safe-area-inset-top);background-image:radial-gradient(var(--ldot) 1px,transparent 1.2px);background-size:16px 16px}
+.ls.l2{z-index:31}
+.ls.on{display:flex}
+.ls .mi{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.ls .ltop{display:flex;align-items:center;justify-content:space-between;padding:8px 12px}
+.ls .ltop button{border:1px solid var(--ll);background:var(--lbg);color:var(--lki);border-radius:16px;padding:6px 14px;font:inherit;font-size:14px}
+.ls .ltop button.k{background:var(--lki);color:var(--lbg);border-color:var(--lki)}
+.ls .ltop b{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500}
+.ls .ltabs{display:flex;gap:6px;padding:2px 14px 8px}
+.ls .chip{flex:none;border:1px solid var(--ll);border-radius:14px;padding:5px 12px;background:none;color:var(--lki);font:inherit;font-size:13px}
+.ls .chip.on{background:var(--lki);color:var(--lbg);border-color:var(--lki)}
+.ls .lbody{flex:1;overflow-y:auto;padding:4px 14px 24px;display:flex;flex-direction:column;gap:10px}
+.ls .lempty{text-align:center;color:var(--lmu);padding:70px 20px;white-space:pre-line;line-height:1.9;font-size:14px}
+.ls .lc{display:flex;width:100%;border-radius:14px;overflow:hidden;position:relative;border:1px solid var(--ll);background:var(--lg);color:var(--lki);padding:0;text-align:left;min-height:74px;font:inherit;-webkit-user-select:none;user-select:none}
+.ls .lc.m{border-style:dashed;border-color:var(--lmu);background:transparent}
+.ls .lc.new{background:var(--lnew);color:var(--lnewf);border-color:var(--lnew)}
+.ls .lc .ic{flex:none;width:64px;display:grid;place-items:center;border-right:1.5px dashed rgba(128,128,128,.5)}
+.ls .lc .ic svg{width:28px;height:28px}
+.ls .lc .tx{flex:1;min-width:0;padding:9px 12px 8px}
+.ls .lc .tx .mi{display:block;opacity:.6;margin-bottom:3px}
+.ls .lc .tx b{display:block;font-size:15px;font-weight:600}
+.ls .lc .tx i{display:block;font-style:normal;font-size:12.5px;opacity:.65;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ls .lc .tx small{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;opacity:.55;margin-top:5px}
+.ls .lc .tag{position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:9px;letter-spacing:.12em;padding:2px 7px;border-radius:9px;background:var(--lbg);color:var(--lki)}
+.ls .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding-bottom:30px}
+.ls .stage h2{margin:0;font-size:20px;font-weight:500;letter-spacing:.08em}
+.ls .stage p{margin:0;color:var(--lmu);animation:blk 2s ease-in-out infinite;text-align:center}
+@keyframes blk{0%,100%{opacity:.3}50%{opacity:1}}
+.ls .envw{perspective:1000px;margin-top:34px}
+.ls .env{--w:min(84vw,320px);position:relative;width:var(--w);height:calc(var(--w)*.66);filter:drop-shadow(0 16px 24px rgba(0,0,0,.28))}
+.ls .env>*{position:absolute}
+.ls .e-back{inset:0;background:#e4e4e0;border:1px solid #0c0c0c}
+.ls .e-paper{left:7%;right:7%;top:6%;height:84%;background:var(--paper);border:1px solid #0c0c0c;z-index:1;transition:transform .8s cubic-bezier(.2,.8,.2,1) .35s;padding:12% 8% 0}
+.ls .e-paper i{display:block;height:5px;background:rgba(0,0,0,.1);margin-bottom:12px}
+.ls .e-paper i.s{width:55%}
+.ls .e-front{inset:0;z-index:2;background:#f4f4f1;clip-path:polygon(0 0,50% 54%,100% 0,100% 100%,0 100%)}
+.ls .e-line{inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.ls .addr{left:8%;bottom:9%;z-index:4;color:#0c0c0c}
+.ls .addr .mi{display:block;color:#7d7d7d;font-size:9px}
+.ls .addr b{display:block;font-size:19px;font-weight:600;margin:1px 0 6px}
+.ls .bc{width:70px;height:16px;background:repeating-linear-gradient(90deg,#0c0c0c 0 2px,transparent 2px 4px,#0c0c0c 4px 5px,transparent 5px 8px)}
+.ls .stamp{right:7%;bottom:9%;z-index:4;width:12.5%;aspect-ratio:3/4;border:1px dashed #0c0c0c;display:grid;place-items:center;color:#0c0c0c;font-size:15px;background:#fafaf8}
+.ls .pm{right:20%;bottom:13%;z-index:4;width:14%;aspect-ratio:1;border:1px solid rgba(12,12,12,.55);border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-size:8px;color:rgba(12,12,12,.6);transform:rotate(-14deg)}
+.ls .e-flap{left:0;top:0;width:100%;height:54%;z-index:5;transform-origin:50% 0;transition:transform .7s ease-in-out,z-index 0s .3s}
+.ls .e-flap svg{width:100%;height:100%;display:block}
+.ls .e-seal{left:50%;top:54%;width:54px;height:54px;margin:-27px 0 0 -27px;z-index:6;border:0;border-radius:50%;background:#0c0c0c;color:#fff;display:grid;place-items:center;font-size:17px;animation:pls 2.2s ease-in-out infinite;transition:opacity .3s,transform .3s;box-shadow:0 0 0 3px #f4f4f1,0 0 0 4px #0c0c0c}
+.ls .e-seal::after{content:"";position:absolute;inset:6px;border:1px dashed rgba(255,255,255,.6);border-radius:50%}
+@keyframes pls{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.ls .env.open .e-flap{transform:rotateX(180deg);z-index:0}
+.ls .env.open .e-paper{transform:translateY(-46%)}
+.ls .env.open .e-seal{opacity:0;transform:scale(1.6);animation:none;pointer-events:none}
+/* 信纸（更干净：去掉横线与条码，留白更大） */
+.ls .lscroll{flex:1;overflow-y:auto;padding:4px 14px 24px}
+.ls .paper{position:relative;background:var(--paper);color:var(--pi);padding:30px 28px 28px;box-shadow:0 10px 30px rgba(0,0,0,.2);border:1px solid rgba(0,0,0,.08);font-size:16px;font-weight:300;letter-spacing:.05em;line-height:2.05}
+.ls .pmeta{display:grid;grid-template-columns:1fr 1fr;row-gap:3px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--pm);line-height:1.5;text-transform:uppercase}
+.ls .pmeta span:nth-child(even){text-align:right}
+.ls .pdash{border-top:1px solid rgba(0,0,0,.14);margin:16px 0 20px}
+.ls .pg{font-size:17px;font-weight:600;margin-bottom:4px}
+.ls .paper p{margin:0 0 6px;text-indent:2em;text-align:justify}
+.ls .pfoot{margin-top:20px;text-align:right}
+.ls .psign{font-size:16px;margin-top:4px}
+.ls .pfoot small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--pm);line-height:22px}
+.ls .porn{text-align:center;margin-top:24px;font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--pm);line-height:1}
+.ls .lq{margin:0 0 18px;border:1px solid #0c0c0c;border-left-width:3px;padding:9px 12px;background:rgba(0,0,0,.03);line-height:1.65;letter-spacing:.03em}
+.ls .lq .mi{display:block;color:var(--pm);margin-bottom:3px}
+.ls .lq .qt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13.5px;color:#333}
+.ls .lq.x .qt{-webkit-line-clamp:unset}
+.ls .lq em{display:block;font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:.14em;margin-top:6px;color:#0c0c0c}
+.ls .lacts{display:flex;gap:10px;padding:10px 14px calc(14px + env(safe-area-inset-bottom))}
+.ls .lacts button{flex:1;border:1px solid var(--lki);border-radius:24px;padding:13px;font:inherit;font-size:15px;background:var(--lbg);color:var(--lki);letter-spacing:.1em}
+.ls .lacts button.p{background:var(--lki);color:var(--lbg);flex:1.6}
+.ls .lto{display:flex;align-items:center;gap:8px;padding:2px 16px 8px;font-size:14px;color:var(--lmu)}
+.ls .lto i{width:24px;height:24px;border-radius:50%;border:1px solid var(--lki);display:grid;place-items:center;font-style:normal;font-size:12px;color:var(--lki)}
+.ls .lto b{color:var(--lki);font-weight:600}
+.ls .lqc{margin:0 14px 10px;display:flex;gap:8px;border:1px solid var(--lki);border-left-width:3px;padding:8px 10px 8px 12px;align-items:flex-start;background:var(--lbg)}
+.ls .lqc[hidden]{display:none}
+.ls .lqc div{flex:1;min-width:0}
+.ls .lqc .mi{display:block;color:var(--lmu)}
+.ls .lqc span:last-child{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.ls .lqc button{border:0;background:none;color:var(--lki);font-size:18px;line-height:1;opacity:.6}
+.ls .lwr{flex:1;display:flex;flex-direction:column;margin:0 14px;min-height:0}
+.ls .lwr .paper{flex:1;display:flex;flex-direction:column;padding-bottom:14px}
+.ls .lwr textarea{flex:1;border:0;outline:0;resize:none;background:transparent;font:inherit;letter-spacing:inherit;color:var(--pi);line-height:2.05;padding:0;min-height:0;height:auto;max-height:none;touch-action:pan-y}
+.ls .lwr textarea::placeholder{color:rgba(0,0,0,.3)}
+.ls .lwf{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--pm);line-height:18px;margin-top:6px;text-transform:uppercase}
+/* ========== 设置：全屏紧凑页 ========== */
+#cfgPage{position:fixed;inset:0;z-index:25;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top)}
+#cfgPage[hidden]{display:none}
+.cg-top{display:flex;align-items:center;gap:4px;padding:8px 12px 6px 4px}
+.cg-top button{border:0;background:none;font-size:32px;line-height:1;padding:0 8px 4px;color:var(--ink)}
+.cg-top b{flex:1;font-size:17px}
+.cg-top span{font-size:13px;color:var(--mute)}
+.cg-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:4px 14px 10px;flex:none}
+.cg-tabs::-webkit-scrollbar{display:none}
+.cg-chip{flex:none;border:1px solid var(--line);background:none;color:var(--ink);border-radius:15px;padding:5px 13px;font:inherit;font-size:13.5px}
+.cg-chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.cg-body{flex:1;overflow-y:auto;padding:2px 14px 30px}
+.cg-card{background:var(--gray);border-radius:16px;overflow:hidden}
+.cg-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 14px;min-height:48px}
+.cg-row+.cg-row{border-top:1px solid var(--line)}
+.cg-l{font-size:15px;flex:1;line-height:1.35}
+.cg-v{display:flex;align-items:center;gap:6px;flex:none}
+.cg-v input{width:76px;height:32px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px;text-align:center;padding:0 6px}
+.cg-v em{font-style:normal;font-size:13px;color:var(--mute);min-width:28px}
+.cg-hint{font-size:12.5px;color:var(--mute);padding:10px 6px;line-height:1.65}
+.cg-row input[type=checkbox]{appearance:none;-webkit-appearance:none;width:44px;height:26px;border-radius:13px;background:rgba(120,120,128,.3);position:relative;flex:none;border:0;padding:0}
+.cg-row input[type=checkbox]::after{content:"";position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
+.cg-row input[type=checkbox]:checked{background:var(--ink)}
+.cg-row input[type=checkbox]:checked::after{transform:translateX(18px);background:var(--bg)}
+/* ========== 通话：自定义背景 ========== */
+.call-top{align-self:stretch;display:flex;justify-content:space-between;align-items:flex-start}
+.call-top .ctr{display:flex;gap:10px;margin-left:auto}
+#call.cbg .call-bg{inset:0;filter:brightness(.7) saturate(1.05)}
+#call.cbg::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,0) 38%,rgba(0,0,0,.5));pointer-events:none}
+#call>*:not(.call-bg){z-index:2}
+#pill.pbg{background-size:cover;background-position:center;color:#fff;border-color:rgba(255,255,255,.35);-webkit-backdrop-filter:none;backdrop-filter:none}
+#pill.pbg .pav{background:rgba(255,255,255,.2)}
+
+/* 字卡库与装扮：统一黑白极简 / ins 韩系风格 */
+#cardsPage{background:#fff;background-image:none;color:#111}
+@media(prefers-color-scheme:dark){#cardsPage{background:#000;background-image:none;color:#f5f5f5}}
+.cp-head{padding:12px 14px 14px;border-bottom:1px solid var(--line);background:var(--bg)}
+.cp-head button{font-size:14px;color:var(--ink);padding:7px 10px;border:1px solid var(--line);border-radius:14px}
+.cp-title{font-size:17px;letter-spacing:.04em}.cp-title span{display:block;margin:3px 0 0;font-size:11px;letter-spacing:.04em}
+.cp-tools{padding:12px 14px 10px;gap:10px}
+#cpSearch{border:1px solid var(--line);border-radius:15px;background:var(--bg);padding:12px 14px;box-shadow:0 2px 8px rgba(0,0,0,.025)}
+.chip{border:1px solid var(--line);background:#fff;color:#171717;border-radius:18px;padding:7px 13px;font-size:12px}
+.chip.on{background:#171717;color:#fff;border-color:#171717}
+.cp-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.cp-actions button,#cpBar button{border:1px solid var(--line);border-radius:14px;padding:10px 8px;background:var(--bg);font-size:13px}
+#cpList{padding:2px 16px 16px}
+.cd{padding:13px 0;gap:11px;border-bottom:1px solid rgba(130,130,130,.2)}
+.cd-main{padding:2px 0}.cd-t{font-size:14px;line-height:1.55}.cd-m{font-size:10px;letter-spacing:.02em}
+.cd-img{width:54px;height:54px;border-radius:13px;border:1px solid var(--line)}
+.mini,.panel .mini{border:1px solid var(--line);border-radius:12px;background:transparent;padding:7px 9px}
+#cpBar{background:var(--bg);padding-top:12px;border-top:1px solid var(--line)}
+.panel{border:1px solid rgba(130,130,130,.14);box-shadow:0 -12px 45px rgba(0,0,0,.08);border-radius:24px 24px 0 0;gap:14px}
+.panel h2{font-size:18px;letter-spacing:.02em}
+.panel label:not(.sw){gap:7px}
+.panel input:not([type=checkbox]):not([type=color]):not([type=range]),.panel select,.panel textarea{border:1px solid var(--line);border-radius:14px;background:var(--bg);padding:12px 13px}
+.panel button{border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:var(--bg)}
+.panel .primary{background:#171717;color:#fff;border-color:#171717}
+.panel .danger{color:#d84b4b}
+#modal .panel,#sheet .panel,#sheetPlus .panel{background:var(--bg)}
+@media(prefers-color-scheme:dark){
+  #cardsPage{background:#000;color:#f5f5f5}
+  .cp-head,#cpBar{background:#000}
+  #cpSearch{background:#111;color:#f5f5f5;border-color:#383838}
+  .cp-actions button,#cpBar button,.cp-head button,.panel button{background:#111;color:#f5f5f5;border-color:#383838}
+  .chip{background:#111;color:#f5f5f5;border-color:#383838}
+  .chip.on{background:#f2f2f2;color:#111;border-color:#f2f2f2}
+  .cd{border-bottom-color:#292929}
+  .panel .primary{background:#f2f2f2;color:#111;border-color:#f2f2f2}
+}
 </style>
 </head>
 <body>
@@ -446,6 +633,7 @@ textarea{padding:8px 0 8px 14px}
     </div>
     <button class="sendc hide" id="send" aria-label="发送"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M6 11l6-6 6 6"/></svg></button>
   </footer>
+  <section id="pp" hidden><div class="pp-pages" id="ppPages"></div><div class="pp-dots" id="ppDots"></div></section>
 </div>
 
 <div class="sheet" id="sheet" hidden>
@@ -467,7 +655,7 @@ textarea{padding:8px 0 8px 14px}
     <input id="cpSearch" type="search" placeholder="搜索字卡">
     <div class="chips" id="cpTypes"></div>
     <div class="chips" id="cpGroups"></div>
-    <div class="cp-actions"><button id="cpAdd">添加字卡</button><button id="cpImport">导入备份</button><button id="cpManage">分组管理</button></div>
+    <div class="cp-actions"><button id="cpAdd">添加字卡</button><button id="cpImport">导入字卡</button><button id="cpExport">导出字卡</button><button id="cpManage">分组管理</button></div>
   </div>
   <div id="cpList"></div>
   <div id="cpBar" hidden><span id="cpSel"></span><button id="cpAll">全选</button><button id="cpMove">移动</button><button id="cpDel" style="color:#e5484d">删除</button></div>
@@ -475,11 +663,46 @@ textarea{padding:8px 0 8px 14px}
 <div class="sheet" id="modal" hidden><div class="panel"><h2 id="mTitle"></h2><div class="body" id="mBody"></div><div class="rowf" id="mBtns"></div></div></div>
 <div id="call" hidden>
   <div class="call-bg"></div>
-  <div class="call-top"><button id="callMin" aria-label="缩小" hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div>
+  <div class="call-top"><button id="callMin" aria-label="缩小" hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><span class="ctr"><button id="callBgRst" aria-label="恢复默认背景" hidden><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4"/></svg></button><button id="callBgBtn" aria-label="更换背景图"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 4 3 3-3 4 4"/></svg></button></span></div>
   <div class="call-mid"><div class="call-av" id="callAv"></div><div class="call-name" id="callName"></div><div class="call-st" id="callSt"></div></div>
   <div class="call-bot" id="callBot"></div>
 </div>
 <div id="pill" hidden><span class="pav" id="pillAv"></span><span id="pillName"></span><span id="pillTime">00:00</span></div>
+<section class="ls" id="mail">
+  <div class="ltop"><button id="mlBack">‹ 返回</button><b>Letters</b><button class="k" id="mlWrite">写信</button></div>
+  <div class="ltabs" id="mlTabs"></div>
+  <div class="lbody" id="mlList"></div>
+</section>
+<section class="ls l2" id="lenv">
+  <div class="ltop"><button id="eBack">稍后再看</button><b id="eNo">No.001</b><span style="width:84px"></span></div>
+  <div class="stage">
+    <h2 id="eTitle">来了一封信</h2>
+    <div class="envw"><div class="env" id="env">
+      <div class="e-back"></div>
+      <div class="e-paper"><i></i><i class="s"></i><i></i><i class="s"></i></div>
+      <div class="e-front"></div>
+      <svg class="e-line" viewBox="0 0 320 211" preserveAspectRatio="none"><path d="M0 0L160 114L320 0M0 211L118 106M320 211L202 106" fill="none" stroke="#0c0c0c" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
+      <div class="addr"><span class="mi">To.</span><b id="eTo">我</b><div class="bc"></div></div>
+      <div class="pm" id="ePm">10.21</div>
+      <div class="stamp">★</div>
+      <div class="e-flap"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 0L50 100L100 0Z" fill="#ececE8" stroke="#0c0c0c" stroke-width="1" vector-effect="non-scaling-stroke"/></svg></div>
+      <button class="e-seal" id="seal" aria-label="拆开">✦</button>
+    </div></div>
+    <p id="eHint"><span class="mi">tap to open</span><br>轻点封贴，拆开这封信</p>
+  </div>
+</section>
+<section class="ls l2" id="lread">
+  <div class="ltop"><button id="rBack">‹ 返回</button><b id="rT">Letter</b><span style="width:70px"></span></div>
+  <div class="lscroll" id="rBox"></div>
+  <div class="lacts" id="rActs"></div>
+</section>
+<section class="ls l2" id="lwrite">
+  <div class="ltop"><button id="wCancel">取消</button><b>传信</b><button class="k" id="wSend">寄出</button></div>
+  <div class="lto"><i id="wAv">明</i><span class="mi">To.</span><b id="wTo">小明</b></div>
+  <div class="lqc" id="wQ" hidden><div><span class="mi" id="wQl"></span><span id="wQt"></span></div><button id="wQx" aria-label="取消引用">×</button></div>
+  <div class="lwr"><article class="paper"><textarea id="wTa" placeholder="亲爱的……&#10;&#10;见字如面……"></textarea><div class="lwf"><span id="wCnt">共 0 字</span><span id="wSign">署名 · 我</span></div></article></div>
+  <div class="lacts"><button class="p" id="wSend2">封好寄出</button></div>
+</section>
 <section id="list">
   <div class="lh"><h1>聊天</h1><div class="lha">
     <button id="lCards" aria-label="字卡库"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="13" height="17" rx="2.5"/><path d="M8 8h6M8 12h6M8 16h3"/><path d="M19 7v13a2 2 0 0 1-2 2"/></svg></button>
@@ -499,6 +722,11 @@ textarea{padding:8px 0 8px 14px}
     </div>
   </div>
 </div>
+<section id="cfgPage" hidden>
+  <div class="cg-top"><button id="cgBack" aria-label="返回">‹</button><b>回复设置</b><span id="cgWho"></span></div>
+  <div class="cg-tabs" id="cgTabs"></div>
+  <div class="cg-body" id="cgBody"></div>
+</section>
 <div class="sheet" id="sheetCfg" hidden>
   <div class="panel">
     <h2>回复设置</h2>
@@ -511,7 +739,7 @@ textarea{padding:8px 0 8px 14px}
 <script>
 (()=>{
 const $=id=>document.getElementById(id);
-const DEF_CFG={minDelay:30,maxDelay:120,cardMin:1,cardMax:3,emojiMix:true,oppTransfer:true,transferProb:13,rejectProb:20,patProb:13,statusHours:4.5,quoteProb:20,callProb:5,callRejectProb:20,acceptProb:80,keepAlive:false,notify:false};
+const DEF_CFG={minDelay:30,maxDelay:120,cardMin:1,cardMax:3,emojiMix:true,oppTransfer:true,transferProb:13,rejectProb:20,patProb:13,statusHours:4.5,quoteProb:20,callProb:5,callRejectProb:20,acceptProb:80,keepAlive:false,notify:false,stickerProb:20,emojiProb:20,letterMinH:1,letterMaxH:6,letterDaily:1,letterCardMin:6,letterCardMax:14};
 const G={contacts:[],cur:null,cards:[],groups:[{id:'public',name:'公共（未分组）',enabled:true}],cardSeq:1,skin:{bm:'',bmc:'',bt:'',btc:'',br:0,fs:0,css:'',tg:'both',notail:false},skins:[],sys:{keepAlive:false,notify:false}};
 const ctOf=id=>G.contacts.find(c=>c.id===id);
 const cur=()=>ctOf(G.cur);
@@ -527,7 +755,7 @@ const kv={db:null,
   get(k){return new Promise(r=>{if(!kv.db)return r(null);try{const q=kv.db.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>r(q.result==null?null:q.result);q.onerror=()=>r(null)}catch(e){r(null)}})},
   set(k,v){return new Promise(r=>{if(!kv.db)return r(false);try{const t=kv.db.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=()=>r(true);t.onerror=t.onabort=()=>r(false)}catch(e){r(false)}})}
 };
-function flush(){clearTimeout(timer);if(!booted)return;try{localStorage.setItem('chat3_lite',JSON.stringify({contacts:G.contacts.map(c=>({id:c.id,profile:{...c.profile,avatar:'',myAvatar:'',bg:''},cfg:c.cfg,sel:c.sel}))}))}catch(e){}kv.set('state',G)}
+function flush(){clearTimeout(timer);if(!booted)return;try{localStorage.setItem('chat3_lite',JSON.stringify({contacts:G.contacts.map(c=>({id:c.id,profile:{...c.profile,avatar:'',myAvatar:'',bg:'',callBg:''},cfg:c.cfg,sel:c.sel}))}))}catch(e){}kv.set('state',G)}
 function save(){clearTimeout(timer);timer=setTimeout(flush,250)}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flush()});
 addEventListener('pagehide',flush);
@@ -632,7 +860,55 @@ function paintBg(){
 let tt;function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),1600)}
 
 /* 加号菜单 */
-$('plus').onclick=()=>{$('sheetPlus').hidden=false};
+/* 加号面板：4 列圆角图标，满 8 个自动翻页，底部圆点指示 */
+const PPI={
+  sticker:'<svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19zM8.8 9.4a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zm6.4 0a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM7.4 14.1h9.2a4.6 4.6 0 0 1-9.2 0z"/></svg>',
+  image:'<svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9 3 7.2 5H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 3H9zm3 5.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg>',
+  cards:'<svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12h8v1.8H8zm0 3.5h8v1.8H8z"/></svg>',
+  transfer:'<svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1H3V6zm0 3h18v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9zm13 3.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>',
+  pat:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg>',
+  skin:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 0 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4a3.6 3.6 0 0 0 3.6-3.6C21 6.4 16.9 3 12 3zM6.5 12a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>',
+  cfg:'<svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M19.4 13a7.7 7.7 0 0 0 0-2l2-1.6a.5.5 0 0 0 .1-.6l-1.9-3.3a.5.5 0 0 0-.6-.2l-2.4 1a7.4 7.4 0 0 0-1.7-1l-.4-2.5a.5.5 0 0 0-.5-.4h-3.8a.5.5 0 0 0-.5.4l-.4 2.5c-.6.2-1.2.6-1.7 1l-2.4-1a.5.5 0 0 0-.6.2L2.5 8.8a.5.5 0 0 0 .1.6l2 1.6a7.7 7.7 0 0 0 0 2l-2 1.6a.5.5 0 0 0-.1.6l1.9 3.3c.1.2.4.3.6.2l2.4-1c.5.4 1.1.8 1.7 1l.4 2.5c0 .2.2.4.5.4h3.8c.3 0 .5-.2.5-.4l.4-2.5c.6-.2 1.2-.6 1.7-1l2.4 1c.2.1.5 0 .6-.2l1.9-3.3a.5.5 0 0 0-.1-.6l-2-1.6zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>'
+};
+PPI.letter='<svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2.6 8 5.2 8-5.2V7H4v.6z"/></svg>';
+const PP_ITEMS=[['sticker','表情包'],['image','相册'],['cards','字卡库'],['transfer','转账'],['letter','传信'],['pat','拍一拍'],['skin','装扮'],['cfg','设置']];
+function plusAction(a){
+  if(a==='image')pickFiles(1280,.82,()=>{});
+  else if(a==='cfg')openCfg();
+  else if(a==='cards')openCards();
+  else if(a==='sticker')stickerDlg();
+  else if(a==='pat')patDlg();
+  else if(a==='skin')skinDlg();
+  else if(a==='letter')openMail();
+  else if(a==='transfer')payDlg();
+  else toast('这个功能下一步接入');
+}
+function buildPP(){
+  const pages=$('ppPages'),dots=$('ppDots');pages.innerHTML='';dots.innerHTML='';
+  for(let i=0;i<PP_ITEMS.length;i+=8){
+    const pg=document.createElement('div');pg.className='pp-page';
+    PP_ITEMS.slice(i,i+8).forEach(([a,t])=>{
+      const b=document.createElement('button');b.className='pp-it';b.dataset.a=a;
+      const ic=document.createElement('span');ic.className='pp-ic';ic.innerHTML=PPI[a]||'';if(a==='letter'){const bd=document.createElement('b');bd.className='pp-bd';bd.hidden=true;ic.append(bd)}
+      const lb=document.createElement('span');lb.className='pp-lb';lb.textContent=t;
+      b.append(ic,lb);b.onclick=()=>{closePP();plusAction(a)};pg.append(b);
+    });
+    pages.append(pg);
+    const d=document.createElement('i');if(i===0)d.className='on';dots.append(d);
+  }
+  dots.style.display=dots.children.length>1?'flex':'none';
+  pages.onscroll=()=>{const k=Math.round(pages.scrollLeft/Math.max(1,pages.clientWidth));[...dots.children].forEach((d,j)=>d.classList.toggle('on',j===k))};
+}
+function closePP(){$('pp').hidden=true;$('app').classList.remove('pp-open')}
+function togglePP(){
+  if(!$('pp').hidden){closePP();return}
+  ta.blur();$('pp').hidden=false;$('app').classList.add('pp-open');$('ppPages').scrollLeft=0;
+  const c=$('chat');c.scrollTop=c.scrollHeight;
+}
+buildPP();
+$('plus').onclick=togglePP;
+ta.addEventListener('focus',closePP);
+$('chat').addEventListener('pointerdown',closePP,{passive:true});
 $('sheetPlus').querySelectorAll('button').forEach(b=>b.onclick=()=>{
   const a=b.dataset.a;$('sheetPlus').hidden=true;
   if(a==='image')pickFiles(1280,.82,()=>{});
@@ -646,46 +922,63 @@ $('sheetPlus').querySelectorAll('button').forEach(b=>b.onclick=()=>{
 });
 
 /* 回复设置：改完立即保存 */
-const FIELDS=[['minDelay','对方回复最快（秒）',1,3600],['maxDelay','对方回复最慢（秒）',1,3600],['cardMin','每次回复字卡最少张数',1,10],['cardMax','每次回复字卡最多张数',1,10],['transferProb','对方发转账概率 %',0,100],['acceptProb','对方收下我的转账概率 %',0,100],['rejectProb','对方退回我的转账概率 %',0,100],['patProb','对方拍一拍概率 %',0,100],['callProb','对方主动来电概率 %',0,100],['callRejectProb','对方拒接我的电话概率 %',0,100],['quoteProb','对方引用我的消息概率 %',0,100],['statusHours','状态自动切换间隔（小时）',0.5,72]];
+const FIELDS=[['minDelay','对方回复最快（秒）',1,3600],['maxDelay','对方回复最慢（秒）',1,3600],['cardMin','每次回复字卡最少张数',1,10],['cardMax','每次回复字卡最多张数',1,10],['transferProb','对方发转账概率 %',0,100],['acceptProb','对方收下我的转账概率 %',0,100],['rejectProb','对方退回我的转账概率 %',0,100],['patProb','对方拍一拍概率 %',0,100],['callProb','对方主动来电概率 %',0,100],['callRejectProb','对方拒接我的电话概率 %',0,100],['quoteProb','对方引用我的消息概率 %',0,100],['statusHours','状态自动切换间隔（小时）',0.5,72],['stickerProb','对方回复变成表情包的概率 %',0,100],['emojiProb','对方回复变成 Emoji 的概率 %',0,100],['letterMinH','对方最少几小时回信',0.01,720],['letterMaxH','对方最多几小时回信',0.01,720],['letterDaily','对方一天最多主动写几封（0=不主动写）',0,10],['letterCardMin','每封信最少用几张字卡',2,40],['letterCardMax','每封信最多用几张字卡',2,40]];
+const DEC=new Set(['statusHours','letterMinH','letterMaxH']);
 const SWITCHES=[['emojiMix','表情包 / Emoji 混合发送'],['oppTransfer','允许对方发转账']];
 const CFG_GROUPS=[
   ['通用',['statusHours']],
-  ['字卡回复',['minDelay','maxDelay','cardMin','cardMax','quoteProb','emojiMix']],
+  ['字卡回复',['minDelay','maxDelay','cardMin','cardMax','quoteProb','stickerProb','emojiProb']],
   ['转账',['oppTransfer','transferProb','acceptProb','rejectProb']],
   ['拍一拍',['patProb']],
-  ['打电话',['callProb','callRejectProb']]
+  ['打电话',['callProb','callRejectProb']],
+  ['传信',['letterMinH','letterMaxH','letterDaily','letterCardMin','letterCardMax']]
 ];
 let cfgTab=0;
+const TAB_HINT={
+  '通用':'状态字卡会按这个间隔自动换一条，显示在昵称下方。',
+  '字卡回复':'「每次回复」是对方一次发几条；表情包 / Emoji 概率，是每一条变成对应类型的几率。',
+  '转账':'收下和退回加起来不到 100% 时，剩下的几率对方会先不处理。',
+  '拍一拍':'对方回复完之后，按这个概率拍你一下。',
+  '打电话':'对方回复完之后，按这个概率给你打电话；拒接概率是你打过去时对方拒接的几率。',
+  '传信':'回信时间在最少和最多之间随机；主动来信填 0 就是不主动写，来信时间会随机排在 9 点到 23 点之间。'
+};
+const UNIT={minDelay:'秒',maxDelay:'秒',cardMin:'张',cardMax:'张',letterMinH:'小时',letterMaxH:'小时',letterDaily:'封',letterCardMin:'张',letterCardMax:'张',statusHours:'小时'};
 function openCfg(){
-  const body=$('cfgBody');body.innerHTML='';
-  const tabs=h('div','chips');
-  CFG_GROUPS.forEach(([t],i)=>{const bt=h('button','chip'+(i===cfgTab?' on':''),t);bt.onclick=()=>{cfgTab=i;openCfg()};tabs.append(bt)});
-  body.append(tabs);
-  if(CFG_GROUPS[cfgTab][0]==='后台通知'){bgTab(body);$('sheetCfg').hidden=false;return}
-  const ins={};
+  const tabs=$('cgTabs'),body=$('cgBody');tabs.innerHTML='';body.innerHTML='';
+  $('cgWho').textContent=cur().profile.name;
+  CFG_GROUPS.forEach(([t],i)=>{const b=h('button','cg-chip'+(i===cfgTab?' on':''),t);b.onclick=()=>{cfgTab=i;openCfg()};tabs.append(b)});
+  const card=h('div','cg-card'),ins={};
   CFG_GROUPS[cfgTab][1].forEach(k=>{
     const f=FIELDS.find(x=>x[0]===k),sw=SWITCHES.find(x=>x[0]===k);
+    const row=h('label','cg-row');
     if(f){
       const [,t,lo,hi]=f;
-      const l=document.createElement('label');l.textContent=t;
-      const i=document.createElement('input');i.type='number';i.inputMode=k==='statusHours'?'decimal':'numeric';i.step=k==='statusHours'?'0.5':'1';i.value=S.cfg[k];ins[k]=i;
+      row.append(h('span','cg-l',t.replace(/（[^）]*）\s*$/,'').replace(/\s*%$/,'')));
+      const w=h('span','cg-v'),i=document.createElement('input');
+      i.type='number';i.inputMode=DEC.has(k)?'decimal':'numeric';i.step=DEC.has(k)?'0.1':'1';i.value=S.cfg[k];ins[k]=i;
       i.onchange=()=>{
-        const dec=k==='statusHours';let v=i.value===''?DEF_CFG[k]:(dec?Math.round(Number(i.value)*10)/10:Math.round(Number(i.value)));
+        const dec=DEC.has(k);let v=i.value===''?DEF_CFG[k]:(dec?Math.round(Number(i.value)*100)/100:Math.round(Number(i.value)));
         if(!isFinite(v))v=DEF_CFG[k];
         v=Math.min(hi,Math.max(lo,v));S.cfg[k]=v;
         if(S.cfg.minDelay>S.cfg.maxDelay){if(k==='minDelay')S.cfg.maxDelay=v;else S.cfg.minDelay=v}
         if(S.cfg.cardMin>S.cfg.cardMax){if(k==='cardMin')S.cfg.cardMax=v;else S.cfg.cardMin=v}
+        if(S.cfg.letterMinH>S.cfg.letterMaxH){if(k==='letterMinH')S.cfg.letterMaxH=v;else S.cfg.letterMinH=v}
+        if(S.cfg.letterCardMin>S.cfg.letterCardMax){if(k==='letterCardMin')S.cfg.letterCardMax=v;else S.cfg.letterCardMin=v}
+        if(k==='letterDaily')cur().plan=null;
         Object.keys(ins).forEach(x=>ins[x].value=S.cfg[x]);save();
       };
-      l.append(i);body.append(l);
+      w.append(i,h('em','',UNIT[k]||'%'));row.append(w);
     }else if(sw){
-      const l=document.createElement('label');l.className='sw';const sp=document.createElement('span');sp.textContent=sw[1];
+      row.append(h('span','cg-l',sw[1]));
       const c=document.createElement('input');c.type='checkbox';c.checked=!!S.cfg[k];c.onchange=()=>{S.cfg[k]=c.checked;save()};
-      l.append(sp,c);body.append(l);
+      row.append(c);
     }
+    card.append(row);
   });
-  $('sheetCfg').hidden=false;
+  body.append(card,h('div','cg-hint',TAB_HINT[CFG_GROUPS[cfgTab][0]]||''));
+  body.scrollTop=0;$('cfgPage').hidden=false;
 }
+$('cgBack').onclick=()=>{$('cfgPage').hidden=true};
 $('cfgOk').onclick=()=>{$('sheetCfg').hidden=true};
 $('rstAv').onclick=()=>{S.profile.avatar='';paintHeader();render();save()};
 $('rstMy').onclick=()=>{S.profile.myAvatar='';render();save()};
@@ -701,7 +994,21 @@ $('clr').onclick=()=>{$('sheet').hidden=true;askYes('确定清空全部聊天记
 /* ========== 对方自动回复 ========== */
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const poolOf=(ct,fn)=>{const sel=new Set(ct.sel||[]),on=id=>{const g=G.groups.find(x=>x.id===id);return !g||g.enabled!==false};return G.cards.filter(c=>c.enabled!==false&&sel.has(c.group)&&on(c.group)&&fn(c))};
-const replyPool=ct=>poolOf(ct,c=>(c.type==='text'||c.type==='emoji'||c.type==='image')&&(ct.cfg.emojiMix||c.type==='text'));
+const replyPool=ct=>poolOf(ct,c=>c.type==='text'||c.type==='emoji'||c.type==='image');
+function pickCards(ct,n){
+  const cfg=ct.cfg,used=new Set(),out=[];
+  const T=poolOf(ct,c=>c.type==='text'),E=poolOf(ct,c=>c.type==='emoji'),I=poolOf(ct,c=>c.type==='image');
+  const take=a=>{const f=a.filter(c=>!used.has(c.id));if(!f.length)return null;const c=f[Math.floor(Math.random()*f.length)];used.add(c.id);return c};
+  for(let i=0;i<n;i++){
+    let c=null;
+    if(Math.random()*100<cfg.stickerProb)c=take(I);
+    if(!c&&Math.random()*100<cfg.emojiProb)c=take(E);
+    if(!c)c=take(T)||take(E)||take(I);
+    if(!c)break;
+    out.push(c);
+  }
+  return out;
+}
 const refreshFor=ct=>{if(view==='chat'&&ct===cur()){paintHeader();render()}else if(view==='list')renderList()};
 function auto(ct){
   const r=rt(ct);clearTimeout(r.timer);
@@ -719,7 +1026,7 @@ async function reply(ct){
   const r=rt(ct),cfg=ct.cfg,p=replyPool(ct);
   if(!p.length){r.typing=false;refreshFor(ct);return}
   const n=Math.min(p.length,cfg.cardMin+Math.floor(Math.random()*(cfg.cardMax-cfg.cardMin+1)));
-  const pick=[...p].sort(()=>Math.random()-.5).slice(0,n);
+  const pick=pickCards(ct,n);
   for(const c of pick){
     r.typing=true;refreshFor(ct);await sleep(700+Math.random()*900);r.typing=false;
     const m={id:Date.now()+Math.random(),mine:false,t:Date.now()};
@@ -903,7 +1210,7 @@ async function notify(title,body,tag,force){
   if(!('Notification' in window)||Notification.permission!=='granted')return;
   try{
     const reg=await navigator.serviceWorker.getRegistration();
-    const opt={body,icon:'icon-192.PNG',badge:'icon-192.PNG'};if(tag)opt.tag=tag;
+    const opt={body,icon:'icon-192.png',badge:'icon-192.png'};if(tag)opt.tag=tag;
     if(reg&&reg.showNotification)await reg.showNotification(title,opt);else new Notification(title,opt);
   }catch(e){}
 }
@@ -950,7 +1257,11 @@ const fmtDur=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padSta
 const callSecs=()=>call&&call.t0?Math.floor((Date.now()-call.t0)/1000):0;
 function paintCall(){
   if(!call)return;const pf=call.ct.profile;
-  document.querySelector('#call .call-bg').style.backgroundImage=pf.avatar?'url("'+pf.avatar+'")':'';
+  const cbg=pf.callBg||pf.avatar;
+  document.querySelector('#call .call-bg').style.backgroundImage=cbg?'url("'+cbg+'")':'';
+  $('call').classList.toggle('cbg',!!pf.callBg);$('callBgRst').hidden=!pf.callBg;
+  const pl=$('pill');pl.classList.toggle('pbg',!!pf.callBg);
+  pl.style.backgroundImage=pf.callBg?'linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url("'+pf.callBg+'")':'';
   fillAv($('callAv'),pf.avatar);$('callName').textContent=pf.name;
   fillAv($('pillAv'),pf.avatar);$('pillName').textContent=pf.name;
   const ring=call.state==='ringing';
@@ -994,6 +1305,8 @@ function endCall(why){
   if(why==='theyReject')toast('对方已拒绝');
 }
 $('callBtn').onclick=()=>startCall(cur());
+$('callBgBtn').onclick=()=>{if(!call)return;const ct=call.ct;pickFile(1280,.82,u=>{ct.profile.callBg=u;save();if(call)paintCall()})};
+$('callBgRst').onclick=()=>{if(!call)return;call.ct.profile.callBg='';save();paintCall()};
 $('callMin').onclick=()=>{
   $('call').hidden=true;const p=$('pill');p.hidden=false;
   if(!p.dataset.x){p.style.left=Math.max(8,innerWidth-p.offsetWidth-12)+'px';p.style.top='84px';p.dataset.x='1'}
@@ -1104,6 +1417,8 @@ function patText(who,c,ct){
   const a=who==='me'?me:op,b=who==='me'?op:me;   /* a=发起方 b=被拍的人 */
   const v=c?c.content:'拍了拍';
   if(/%我的昵称%|%对方昵称%/.test(v))return v.replace(/%我的昵称%/g,a).replace(/%对方昵称%/g,b);
+  /* 自动适配：内容里已经带了“我/你”或双方昵称，就不再追加被拍的人 */
+  if(/[我你]/.test(v)||v.includes(me)||v.includes(op))return a+v;
   return a+v+b;
 }
 function sendPat(c){
@@ -1289,75 +1604,61 @@ $('cpManage').onclick=()=>modal('分组管理',b=>{
   };
   draw();
 },[['完成',null,'primary']]);
+function downloadJSON(obj,name){
+  try{const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.style.display='none';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);return true}catch(e){toast('导出失败');return false}
+}
+function exportCards(){
+  const data={format:'chat-card-backup',version:1,exportedAt:new Date().toISOString(),groups:S.groups,cards:S.cards};
+  if(downloadJSON(data,'字卡库备份_'+new Date().toISOString().slice(0,10)+'.json'))toast('字卡备份已导出');
+}
+$('cpExport').onclick=exportCards;
 $('cpImport').onclick=()=>{
   const f=document.createElement('input');f.type='file';f.accept='.json,application/json';
-  f.onchange=()=>{const file=f.files[0];if(!file)return;const rd=new FileReader();
+  f.onchange=()=>{const file=f.files&&f.files[0];if(!file)return;const rd=new FileReader();
     rd.onload=()=>{try{
-      const d=JSON.parse(rd.result);
-      const groupsIn=[], cardsIn=[];
-      // 兼容网站原有备份格式：{cards, groups} 或直接数组
-      if(Array.isArray(d)?true:Array.isArray(d.cards)){
-        const cs=Array.isArray(d)?d:d.cards;
-        (Array.isArray(d.groups)?d.groups:[]).forEach(g=>{if(g&&g.name&&g.id!=='public')groupsIn.push({id:String(g.id),name:String(g.name),enabled:g.enabled!==false})});
-        cs.forEach(c=>{if(c&&['text','emoji','image','status','pat'].includes(c.type)&&c.content)cardsIn.push({type:c.type,content:String(c.content),group:String(c.group||'public'),enabled:c.enabled!==false})});
-      } else if(Array.isArray(d.customReplyGroups)||Array.isArray(d.customReplies)){
-        // 兼容「reply-groups」格式：每个 customReplyGroup 的 items 归入对应分组
-        (Array.isArray(d.customReplyGroups)?d.customReplyGroups:[]).forEach(g=>{
-          if(!g||!g.name)return;
-          const gid='import:'+String(g.id??g.name);
-          groupsIn.push({id:gid,name:String(g.name),enabled:true});
-          (Array.isArray(g.items)?g.items:[]).forEach(v=>{if(typeof v==='string'&&v.trim())cardsIn.push({type:'text',content:v.trim(),group:gid,enabled:true})});
-        });
-        // 未被分组包含的 customReplies 也导入，避免备份里的独立字卡丢失
-        const grouped=new Set(cardsIn.map(c=>c.content));
-        (Array.isArray(d.customReplies)?d.customReplies:[]).forEach(v=>{if(typeof v==='string'&&v.trim()&&!grouped.has(v.trim()))cardsIn.push({type:'text',content:v.trim(),group:'public',enabled:true})});
-      } else throw new Error('unsupported');
-      if(!cardsIn.length&&!groupsIn.length)throw new Error('empty');
-      const norm=v=>String(v??'').trim().normalize('NFC');
-      const incomingSeen=new Set();let fileDup=0;
-      const cleanCards=[];
-      cardsIn.forEach(c=>{const key=c.type+'\\u0000'+norm(c.content)+'\\u0000'+c.group;if(incomingSeen.has(key)){fileDup++;return}incomingSeen.add(key);cleanCards.push(c)});
-      const preview=()=>{
-        const b=$('mBody');b.innerHTML='';
-        b.append(h('p','',`识别到 ${cleanCards.length} 张字卡、${groupsIn.length} 个分组。会自动查重。`));
-        b.append(h('p','',`备份文件内部重复：${fileDup} 张。请选择导入方式：`));
-        const wrap=h('div','');wrap.style.cssText='display:grid;gap:10px;margin-top:14px';
-        const merge=h('button','primary','叠加导入（保留现有字卡，跳过重复）');
-        const replace=h('button','','直接覆盖（先清空现有字卡和分组）');
-        merge.onclick=()=>doImport('merge');replace.onclick=()=>askYes('直接覆盖会替换当前字卡库的字卡和分组，无法自动恢复。确定继续吗？',()=>doImport('replace'));
-        wrap.append(merge,replace);b.append(wrap);
-      };
-      const doImport=mode=>{
-        let groupMap={public:'public'},ng=0,added=0,dups=0;
-        if(mode==='replace'){S.cards=[];S.groups=[];addGroup({id:'public',name:'公共',enabled:true})}
-        // 先按分组名合并，避免同名分组重复创建
-        groupsIn.forEach(g=>{
-          let x=S.groups.find(y=>y.name===g.name);
-          if(!x){x={id:'g'+Date.now()+Math.random().toString(36).slice(2,7),name:g.name,enabled:g.enabled!==false};addGroup(x);ng++}
-          groupMap[g.id]=x.id;
-        });
-        cleanCards.forEach(c=>{
-          const gid=groupMap[c.group]||'public';
-          const content=String(c.content).trim();
-          if(S.cards.some(y=>y.type===c.type&&norm(y.content)===norm(content)&&y.group===gid)){dups++;return}
-          const k=mk(c.type,content,gid);k.enabled=c.enabled!==false;S.cards.push(k);added++;
-        });
-        save();renderCards();toast(`导入完成：新增 ${added} 张，跳过重复 ${dups+fileDup} 张`+(ng?`，新增 ${ng} 个分组`:''));
-        $('mBody').innerHTML='';$('modal').hidden=true;
-      };
-      modal('导入字卡备份',preview,[['取消',null],['继续',null,'primary']]);
-      $('mBtns').innerHTML='';
-      const cancel=h('button','','取消');cancel.onclick=()=>{$('modal').hidden=true};
-      $('mBtns').append(cancel);
-    }catch(e){toast('文件格式不正确或没有可导入的字卡')}};
-    rd.readAsText(file)};
-  f.click();
+      const d=JSON.parse(rd.result);const cs=Array.isArray(d)?d:d.cards;if(!Array.isArray(cs))throw Error('no cards');
+      const map={public:'public'};let ng=0;
+      (Array.isArray(d.groups)?d.groups:[]).forEach(g=>{
+        if(!g||g.id==='public'||!g.name)return;
+        let x=S.groups.find(y=>y.name===g.name);
+        if(!x){x={id:'g'+Date.now()+Math.random().toString(36).slice(2,6),name:String(g.name),enabled:g.enabled!==false};addGroup(x);ng++}
+        map[g.id]=x.id;
+      });
+      let n=0;
+      cs.forEach(c=>{
+        if(!c||!['text','emoji','image','status','pat'].includes(c.type)||c.content==null||c.content==='')return;
+        const gid=map[c.group]||'public';
+        if(S.cards.some(y=>y.type===c.type&&y.content===c.content&&y.group===gid))return;
+        const k=mk(c.type,String(c.content),gid);k.enabled=c.enabled!==false;S.cards.push(k);n++;
+      });
+      save();renderCards();toast('已导入 '+n+' 张字卡'+(ng?'，新增 '+ng+' 个分组':''));
+    }catch(e){toast('文件格式不正确，请选择字卡库 JSON 备份')}};
+    rd.readAsText(file)};f.click();
 };
+function exportFullBackup(){
+  flush();
+  const data={format:'chat-full-backup',version:1,exportedAt:new Date().toISOString(),state:G};
+  downloadJSON(data,'聊天网站完整备份_'+new Date().toISOString().slice(0,10)+'.json');
+  toast('完整备份已导出');
+}
+function importFullBackup(){
+  const f=document.createElement('input');f.type='file';f.accept='.json,application/json';
+  f.onchange=()=>{const file=f.files&&f.files[0];if(!file)return;const rd=new FileReader();rd.onload=()=>{try{
+    const d=JSON.parse(rd.result),st=d&&d.state;
+    if(!st||!Array.isArray(st.contacts)||!Array.isArray(st.cards)||!Array.isArray(st.groups))throw Error('invalid');
+    askYes('导入完整备份会替换当前联系人、聊天记录、字卡和装扮。建议先导出当前备份。确定继续吗？',async()=>{
+      G.contacts=st.contacts;G.cards=st.cards;G.groups=st.groups;G.cardSeq=st.cardSeq||1;G.skin={...SKIN_DEF,...(st.skin||{})};G.skins=Array.isArray(st.skins)?st.skins:[];G.sys=st.sys||G.sys;
+      G.cur=null;G.contacts.forEach(ct=>{ct.cfg={...DEF_CFG,...(ct.cfg||{})};ct.msgs=ct.msgs||[];ct.letters=ct.letters||[];ct.profile={name:'联系人',avatar:'',myAvatar:'',bg:'',myName:'我',...(ct.profile||{})};ct.status=ct.status||{text:'',at:0};ct.sel=ct.sel||G.groups.map(g=>g.id)});
+      V.q='';V.type='all';V.group='all';V.multi=false;V.sel.clear();applySkin();renderList();booted=true;await kv.set('state',G);flush();toast('完整备份导入成功');
+    },'确认导入');
+  }catch(e){toast('备份文件无效，未更改现有数据')}};rd.readAsText(file)};f.click();
+}
+
 
 /* ========== 联系人 ========== */
 function addGroup(g){G.groups.push(g);G.contacts.forEach(c=>c.sel.push(g.id))}
 function newContact(name,avatar){
-  const ct={id:'c'+Date.now()+Math.random().toString(36).slice(2,5),created:Date.now(),profile:{name,avatar:avatar||'',myAvatar:'',bg:'',myName:'我'},cfg:{...DEF_CFG},msgs:[],status:{text:'',at:0},sel:G.groups.map(g=>g.id),unread:0};
+  const ct={id:'c'+Date.now()+Math.random().toString(36).slice(2,5),created:Date.now(),profile:{name,avatar:avatar||'',myAvatar:'',bg:'',myName:'我'},cfg:{...DEF_CFG},msgs:[],status:{text:'',at:0},sel:G.groups.map(g=>g.id),unread:0,letters:[],letterSeq:1,pending:[],plan:null,dayCount:{day:'',count:0}};
   G.contacts.push(ct);return ct;
 }
 const lastOf=ct=>ct.msgs.length?ct.msgs[ct.msgs.length-1]:null;
@@ -1369,7 +1670,7 @@ function renderList(){
   cs.forEach(ct=>{
     const row=h('button','li'),av=h('div','lav'),mid=h('div','lm'),l1=h('div','l1'),l2=h('div','l2'),lm=lastOf(ct);
     fillAv(av,ct.profile.avatar);
-    l1.append(h('b','',ct.profile.name),h('span','lt',lm?dayShort(lm.t):''));
+    l1.append(h('b','',ct.profile.name+(unreadLetters(ct)?'  ✉':'')),h('span','lt',lm?dayShort(lm.t):''));
     l2.append(h('span','lp'+(rt(ct).typing?' ty':''),rt(ct).typing?'正在输入…':(lm?String(prev(lm)):'')));
     if(ct.unread>0)l2.append(h('span','badge',String(ct.unread>99?'99+':ct.unread)));
     mid.append(l1,l2);row.append(av,mid);
@@ -1385,9 +1686,9 @@ let lpDone=false;
 function openChat(id){
   G.cur=id;view='chat';const ct=cur();ct.unread=0;
   quoted=null;editing=null;setQ();ta.value='';fit();toggle();
-  $('list').hidden=true;paintHeader();paintBg();render();save();
+  closePP();$('list').hidden=true;paintHeader();paintBg();render();refreshBadges();save();
 }
-function showList(){view='list';closePop();$('list').hidden=false;renderList()}
+function showList(){view='list';closePop();closePP();$('list').hidden=false;renderList()}
 $('back').onclick=showList;
 function contactDlg(){
   let nm,av='';
@@ -1440,12 +1741,197 @@ $('more').onclick=()=>menuCard(S.profile.name,[
 $('lAdd').onclick=contactDlg;
 $('lCards').onclick=()=>openCards();
 $('lMore').onclick=()=>menuCard('更多',[
-  [ICO.cards,'字卡库','分组、搜索、导入备份',()=>openCards()],
+  [ICO.cards,'字卡库','分组、搜索、导入/导出字卡',()=>openCards()],
+  [ICO.restore,'导出完整备份','保存聊天记录、字卡、装扮与设置',()=>exportFullBackup()],
+  [ICO.restore,'导入完整备份','从 JSON 恢复整个网站数据',()=>importFullBackup()],
   [ICO.image,'装扮','自定义气泡、导入气泡代码',()=>skinDlg()],
   [ICO.restore,'后台保活与通知','锁屏保活、消息弹窗',()=>modal('后台保活与通知',b=>bgTab(b),[['完成',null,'primary']])]
 ]);
 $('stk').onclick=()=>stickerDlg();
 $('cam').onclick=()=>pickFiles(1280,.82,()=>{});
+
+/* ========== 传信（写信 / 对方来信 / 回信 / 引用） ========== */
+const lnum=n=>String(n).padStart(3,'0');
+const p2=n=>String(n).padStart(2,'0');
+const fmtD=t=>{const d=new Date(t);return d.getFullYear()+'.'+p2(d.getMonth()+1)+'.'+p2(d.getDate())};
+const fmtDW=t=>fmtD(t)+' '+['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(t).getDay()];
+const unreadLetters=ct=>(ct.letters||[]).filter(l=>!l.mine&&!l.opened).length;
+const pickR=a=>a[Math.floor(Math.random()*a.length)];
+const LOPEN=['见字如面。','展信佳。','','','今天忽然想给你写封信。'];
+const LCLOSE=['祝你每天都有好心情','晚安，早点休息','等你回信','照顾好自己','想你的人'];
+const LIC={
+  closed:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><rect x="3" y="5.5" width="18" height="13" rx="1.5"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>',
+  open:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 10l9-5.5L21 10v8.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/><path d="M3.5 10.5l8.5 6 8.5-6"/><path d="M7 9V5.5h10V9"/></svg>'
+};
+const snap=l=>({no:l.no,mine:l.mine,t:l.t,greet:l.greet||'',paras:l.paras,close:l.close||'',sign:l.sign||''});
+/* 用字卡拼成一封像样的信：把若干张字卡连成句子、分成几段，而不是一张一行 */
+function genLetter(ct,reply){
+  const T=poolOf(ct,c=>c.type==='text');if(!T.length)return null;
+  const cfg=ct.cfg,total=Math.min(T.length,cfg.letterCardMin+Math.floor(Math.random()*(cfg.letterCardMax-cfg.letterCardMin+1)));
+  const cards=[...T].sort(()=>Math.random()-.5).slice(0,total);
+  const np=total>=9?3:total>=4?2:1,paras=[];let k=0;
+  for(let q=0;q<np;q++){
+    const take=q<np-1?Math.round(total/np):total-k,seg=cards.slice(k,k+take);k+=take;
+    let s=q===0?pickR(LOPEN):'',n=0;
+    seg.forEach((c,i)=>{
+      const raw=c.content.trim(),core=raw.replace(/[。！？!?…，,、；;~～\s]+$/,'');if(!core)return;
+      const end=raw.slice(core.length),last=i===seg.length-1;
+      const mark=/[！!]/.test(end)?'！':/[？?]/.test(end)?'？':(last?'。':(Math.random()<.22?'。':'，'));
+      s+=core+(last&&!/[。！？]/.test(mark)?'。':mark);n++;
+    });
+    if(n)paras.push(s);
+  }
+  if(!paras.length)return null;
+  const me=ct.profile.myName||'我',op=ct.profile.name;
+  return {id:Date.now()+Math.random(),no:ct.letterSeq++,mine:false,t:Date.now(),opened:false,greet:'亲爱的'+me+'：',paras,close:pickR(LCLOSE),sign:'—— '+op,reply:reply||null};
+}
+function refreshBadges(){
+  const ct=cur(),n=ct?unreadLetters(ct):0;
+  document.querySelectorAll('.pp-bd').forEach(b=>{b.hidden=!n;b.textContent=n});
+  $('plus').classList.toggle('has-l',n>0);
+}
+function deliverLetter(ct,l){
+  ct.letters.push(l);save();
+  if(view==='mail'&&G.cur===ct.id)renderMail();
+  if(view==='list')renderList();
+  refreshBadges();
+  notify(ct.profile.name,l.reply?'给你回了一封信':'给你寄来一封信');
+  if(view==='chat'&&ct===cur())toast(ct.profile.name+' 给你寄来一封信');
+}
+function checkLetters(){
+  const now=Date.now(),today=new Date().toDateString();
+  G.contacts.forEach(ct=>{
+    const due=ct.pending.filter(p=>p.due<=now);
+    if(due.length){
+      ct.pending=ct.pending.filter(p=>p.due>now);
+      due.forEach(p=>{const src=ct.letters.find(x=>x.id===p.to);const l=genLetter(ct,src?snap(src):null);if(l){if(src)src.answered=true;deliverLetter(ct,l)}});
+    }
+    const cap=ct.cfg.letterDaily;
+    if(!ct.dayCount||ct.dayCount.day!==today)ct.dayCount={day:today,count:0};
+    if(!ct.plan||ct.plan.day!==today){
+      const left=Math.max(0,cap-ct.dayCount.count),n=cap>0?Math.min(left,1+Math.floor(Math.random()*cap)):0,times=[];
+      const a=Math.max(now+300000,new Date().setHours(9,0,0,0)),b=new Date().setHours(22,59,0,0);
+      if(a<b)for(let i=0;i<n;i++)times.push(a+Math.random()*(b-a));
+      ct.plan={day:today,times:times.sort((x,y)=>x-y)};save();
+    }
+    const ready=ct.plan.times.filter(t=>t<=now);
+    if(ready.length){
+      ct.plan.times=ct.plan.times.filter(t=>t>now);
+      ready.forEach(()=>{if(ct.dayCount.count>=cap)return;const l=genLetter(ct,null);if(l){ct.dayCount.count++;deliverLetter(ct,l)}});
+      save();
+    }
+  });
+}
+setInterval(checkLetters,30000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&booted)checkLetters()});
+function sendLetter(text,replyTo){
+  const ct=cur(),cfg=ct.cfg;
+  const l={id:Date.now()+Math.random(),no:ct.letterSeq++,mine:true,t:Date.now(),opened:true,paras:text.split(/\n+/).map(x=>x.trim()).filter(Boolean),reply:replyTo?snap(replyTo):null};
+  ct.letters.push(l);
+  const hrs=cfg.letterMinH+Math.random()*(Math.max(cfg.letterMinH,cfg.letterMaxH)-cfg.letterMinH);
+  ct.pending.push({due:Date.now()+hrs*3600000,to:l.id});
+  save();return l;
+}
+/* —— 信纸 —— */
+function quoteBlock(r,ct,expandable){
+  const q=h('div','lq'),who=r.mine?'你的信':ct.profile.name+'的来信';
+  const txt=(r.greet?r.greet+' ':'')+r.paras.join(' ');
+  q.append(h('span','mi','Re: '+who+' · '+fmtD(r.t)),h('span','qt',txt));
+  if(expandable){const em=h('em','','展开原信 +');em.onclick=()=>{q.classList.toggle('x');em.textContent=q.classList.contains('x')?'收起 −':'展开原信 +'};q.append(em)}
+  return q;
+}
+function buildPaper(l,ct){
+  const me=ct.profile.myName||'我',op=ct.profile.name,from=l.mine?me:op,to=l.mine?op:me;
+  const p=h('article','paper'),meta=h('div','pmeta');
+  meta.append(h('span','','No.'+lnum(l.no)),h('span','',fmtDW(l.t)),h('span','','From '+from),h('span','','To '+to));
+  p.append(meta,h('div','pdash'));
+  if(l.reply)p.append(quoteBlock(l.reply,ct,true));
+  if(l.greet)p.append(h('div','pg',l.greet));
+  l.paras.forEach(x=>p.append(h('p','',x)));
+  const f=h('div','pfoot');
+  if(l.close)f.append(h('div','',l.close));
+  f.append(h('div','psign',l.sign||('—— '+from)),h('small','',fmtD(l.t)));
+  p.append(f,h('div','porn','✦ No.'+lnum(l.no)+' ✦'));
+  return p;
+}
+/* —— 信箱 —— */
+let mailTab='in',curL=null,wrReply=null;
+function openMail(){view='mail';closePP();$('mail').classList.add('on');renderMail()}
+function closeMail(){$('mail').classList.remove('on');view='chat';paintHeader();render();refreshBadges()}
+function renderMail(){
+  const ct=cur();if(!ct)return;
+  const T=$('mlTabs');T.innerHTML='';
+  const un=unreadLetters(ct);
+  [['in','收到的'+(un?'（'+un+'）':'')],['out','寄出的']].forEach(([k,t])=>{const b=h('button','chip'+(mailTab===k?' on':''),t);b.onclick=()=>{mailTab=k;renderMail()};T.append(b)});
+  const L=$('mlList');L.innerHTML='';
+  const list=ct.letters.filter(l=>mailTab==='out'?l.mine:!l.mine).sort((a,b)=>b.t-a.t);
+  if(!list.length){L.append(h('div','lempty',mailTab==='out'?'还没有寄出过信\n点右上角「写信」写一封':'还没有收到信\n你寄出一封，对方就会回信；\n对方也会偶尔主动写信来'));return}
+  list.forEach(l=>{
+    const unread=!l.mine&&!l.opened,op=ct.profile.name,d=new Date(l.t);
+    const b=h('button','lc'+(l.mine?' m':' t')+(unread?' new':'')),ic=h('div','ic'),tx=h('div','tx');
+    ic.innerHTML=unread?LIC.closed:LIC.open;
+    const lab=l.mine?('Sent'+(l.answered?' · ✓ 已回信':' · 等待回信')):(unread?'Letter · 未拆':(l.reply?'Re: Letter · 已拆开':'Letter · 已拆开'));
+    tx.append(h('span','mi',lab),h('b','',l.mine?'寄给 '+op+' 的信':(l.reply?op+' 的回信':'来自 '+op+' 的信')));
+    tx.append(h('i','',unread?'轻点拆开这封信':(l.paras[0]||'').slice(0,26)));
+    tx.append(h('small','',''));tx.lastChild.append(h('span','','No.'+lnum(l.no)),h('span','',p2(d.getMonth()+1)+'.'+p2(d.getDate())+' '+p2(d.getHours())+':'+p2(d.getMinutes())));
+    if(unread)b.append(h('span','tag','NEW'));
+    b.append(ic,tx);
+    b.onclick=()=>{if(lpD){lpD=false;return}unread?openEnv(l):openRead(l)};
+    b.oncontextmenu=e=>{e.preventDefault();delLetter(l)};
+    let t=null;
+    b.addEventListener('touchstart',()=>{lpD=false;t=setTimeout(()=>{lpD=true;delLetter(l)},500)},{passive:true});
+    ['touchmove','touchend','touchcancel'].forEach(ev=>b.addEventListener(ev,()=>clearTimeout(t),{passive:true}));
+    L.append(b);
+  });
+}
+let lpD=false;
+function delLetter(l){askYes('删除这封信？',()=>{const ct=cur();ct.letters=ct.letters.filter(x=>x!==l);save();renderMail();refreshBadges()})}
+$('mlBack').onclick=closeMail;
+$('mlWrite').onclick=()=>openWrite(null);
+/* —— 拆信前 —— */
+function openEnv(l){
+  const ct=cur();curL=l;
+  $('eTitle').textContent=ct.profile.name+' 寄来一封信';$('eNo').textContent='No.'+lnum(l.no);$('eTo').textContent=ct.profile.myName||'我';
+  const d=new Date(l.t);$('ePm').textContent=p2(d.getMonth()+1)+'.'+p2(d.getDate());
+  $('env').classList.remove('open');$('eHint').style.visibility='visible';$('lenv').classList.add('on');
+}
+$('eBack').onclick=()=>$('lenv').classList.remove('on');
+$('seal').onclick=()=>{
+  const l=curL;if(!l)return;
+  $('env').classList.add('open');$('eHint').style.visibility='hidden';
+  setTimeout(()=>{l.opened=true;save();$('lenv').classList.remove('on');openRead(l);renderMail();refreshBadges()},1500);
+};
+/* —— 读信 —— */
+function openRead(l){
+  const ct=cur();curL=l;
+  const box=$('rBox');box.innerHTML='';box.append(buildPaper(l,ct));box.scrollTop=0;
+  $('rT').textContent=l.reply?'Re: Letter':'Letter';
+  const a=$('rActs');a.innerHTML='';
+  const close=h('button','','收起');close.onclick=()=>$('lread').classList.remove('on');a.append(close);
+  if(!l.mine){const re=h('button','p','回信');re.onclick=()=>openWrite(l);a.append(re)}
+  $('lread').classList.add('on');
+}
+$('rBack').onclick=()=>$('lread').classList.remove('on');
+/* —— 写信 / 回信 —— */
+function openWrite(replyTo){
+  const ct=cur();wrReply=replyTo;
+  $('wTo').textContent=ct.profile.name;$('wAv').textContent=(ct.profile.name||'?').slice(0,1);
+  $('wSign').textContent='署名 · '+(ct.profile.myName||'我');
+  $('wTa').value='';$('wCnt').textContent='共 0 字';
+  const q=$('wQ');q.hidden=!replyTo;
+  if(replyTo){$('wQl').textContent='Re: '+(replyTo.mine?'你的信':ct.profile.name+'的来信')+' · '+fmtD(replyTo.t);$('wQt').textContent=(replyTo.greet?replyTo.greet+' ':'')+replyTo.paras.join(' ')}
+  $('lwrite').classList.add('on');
+}
+$('wQx').onclick=()=>{wrReply=null;$('wQ').hidden=true};
+$('wTa').oninput=()=>{$('wCnt').textContent='共 '+$('wTa').value.replace(/\s/g,'').length+' 字'};
+$('wCancel').onclick=()=>$('lwrite').classList.remove('on');
+const doSend=()=>{
+  const v=$('wTa').value.trim();if(!v){toast('先写点什么吧');return}
+  sendLetter(v,wrReply);
+  $('lwrite').classList.remove('on');$('lread').classList.remove('on');
+  mailTab='out';renderMail();toast('信已寄出，等 '+cur().profile.name+' 回信');
+};
+$('wSend').onclick=doSend;$('wSend2').onclick=doSend;
 
 /* 启动：先读存档，再显示 */
 (async()=>{
@@ -1460,16 +1946,17 @@ $('cam').onclick=()=>pickFiles(1280,.82,()=>{});
     if(Array.isArray(d.skins))G.skins=d.skins;
     if(d.sys)G.sys={...G.sys,...d.sys};
   }
-  if(lite&&Array.isArray(lite.contacts))lite.contacts.forEach(lc=>{const ct=ctOf(lc.id);if(ct){ct.profile={...ct.profile,...lc.profile};ct.cfg={...ct.cfg,...lc.cfg};if(lc.sel)ct.sel=lc.sel}});
+  if(lite&&Array.isArray(lite.contacts))lite.contacts.forEach(lc=>{const ct=ctOf(lc.id);if(ct){{const {avatar,myAvatar,bg,callBg,...lp}=lc.profile||{};ct.profile={...ct.profile,...lp}}ct.cfg={...ct.cfg,...lc.cfg};if(lc.sel)ct.sel=lc.sel}});
   G.contacts.forEach(ct=>{
     ct.cfg={...DEF_CFG,...(ct.cfg||{})};
     ct.profile={name:'联系人',avatar:'',myAvatar:'',bg:'',myName:'我',...(ct.profile||{})};
     ct.msgs=ct.msgs||[];ct.status=ct.status||{text:'',at:0};ct.sel=ct.sel||G.groups.map(g=>g.id);ct.unread=ct.unread||0;
+    ct.letters=ct.letters||[];ct.letterSeq=ct.letterSeq||1;ct.pending=ct.pending||[];ct.plan=ct.plan||null;ct.dayCount=ct.dayCount||{day:'',count:0};
   });
   G.cardSeq=Math.max(0,...G.cards.map(c=>Number(c.id)||0))+1;
   G.cur=null;booted=true;applySkin();renderList();flush();
   G.contacts.forEach(ct=>ct.msgs.forEach(m=>{if(m.mine&&m.status==='pending'&&!m.ignored)payRespond(m,ct)}));
-  tickStatus();
+  tickStatus();checkLetters();
   if(G.sys.keepAlive){toast('点一下屏幕恢复后台保活');document.addEventListener('pointerdown',()=>{startKeep()},{once:true,capture:true})}
   if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
 })();
