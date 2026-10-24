@@ -1200,8 +1200,13 @@ function stopKeep(){
 }
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&G.sys.keepAlive&&keepAudio&&keepAudio.paused)keepAudio.play().catch(()=>{})});
 async function askNotify(){
-  if(!('Notification' in window)||typeof Notification.permission!=='string'||typeof Notification.requestPermission!=='function'){
-    toast('当前网页容器未开放网页通知接口。即使安卓系统已允许通知，也需要在 WebToApp 开启原生通知/网页通知桥接后才能使用。');
+  // WebToApp 原生桥接开关不等同于网页 Notification API 授权；分别检查，避免把两者混为一谈。
+  const hasWebNotification=('Notification' in window)&&typeof Notification.permission==='string'&&typeof Notification.requestPermission==='function';
+  if(!hasWebNotification){
+    const inWebToApp=!!(window.FlutterWebView&&typeof window.FlutterWebView.postMessage==='function');
+    toast(inWebToApp
+      ?'已检测到应用桥接，但当前容器没有开放网页通知 API。原生推送还需在 WebToApp「集成」中启用 OneSignal 或 FCM，并重新构建 APK。'
+      :'当前环境不支持网页通知 API。请用支持通知的浏览器打开，或在 WebToApp 配置原生推送。');
     return false;
   }
   let p=Notification.permission;
@@ -1209,7 +1214,9 @@ async function askNotify(){
     try{p=await Notification.requestPermission()}catch(e){p='denied'}
   }
   if(p!=='granted'){
-    toast(p==='denied'?'网页通知权限被浏览器或应用容器拒绝；请检查站点权限及 WebToApp 通知配置。':'尚未授予网页通知权限。');
+    toast(p==='denied'
+      ?'网页通知权限未获授权。安卓系统通知权限与网页通知权限是两项不同设置；若在 APK 内仍失败，需要配置原生推送并重新构建。'
+      :'尚未授予网页通知权限。');
     return false;
   }
   return true;
@@ -1226,7 +1233,7 @@ async function notify(title,body,tag,force){
 const notifyMsg=(m,ct)=>notify(ct.profile.name,String(prev(m)));
 function bgTab(body){
   const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
-  body.append(h('div','hint',standalone?'当前：已从主屏幕打开，保活和通知可用。':'当前：在浏览器里打开。iPhone 需要先用 Safari 把网站「添加到主屏幕」，再从主屏幕图标打开，通知才可用（iOS 16.4 以上）。'));
+  body.append(h('div','hint',standalone?'当前：已从主屏幕打开；后台通知仍取决于系统支持及推送配置。':'当前：在浏览器里打开。iPhone 需要先用 Safari 把网站「添加到主屏幕」，再从主屏幕图标打开，通知才可用（iOS 16.4 以上）。'));
   const sw=(label,key,onOn)=>{
     const l=h('label','sw'),c=h('input');c.type='checkbox';c.checked=!!G.sys[key];
     c.onchange=async()=>{

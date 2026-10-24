@@ -1,0 +1,11 @@
+知念易杳｜通知权限提示与字卡导入修复
+
+本包基于你提供的 puyu-main 项目，保留全屏/PWA 配置和原有页面功能，并包含：
+1. 字卡导入兼容 content/text/value/card 字段，导入后重置旧筛选条件，避免“只有分组、看不到字卡”。
+2. 通知权限诊断文案区分网页 Notification API 与 WebToApp 原生推送，不再把两种权限当成一回事。
+3. Service Worker 增加 push 事件显示处理（仅负责显示已送达的 Web Push）。
+
+重要限制：这不是 APK，也没有在真实 Android 设备上测试。Service Worker 的 push 事件不会自动产生推送订阅、不会把字卡生成事件发送到 OneSignal/FCM，也不能保证网页在后台持续运行。
+要让 APK 收到系统推送，仍需在 WebToApp「集成」里选择并配置 OneSignal 或 FCM，重新构建 APK；若要在字卡生成时自动推送，还需把字卡事件接到推送服务/后端。OneSignal 与 FCM 不应同时在同一构建中启用。
+
+请先保留原项目和字卡备份，再将 puyu-main 文件夹上传/部署到网站。不要把此 ZIP 当成可直接安装的 APK。
