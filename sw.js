@@ -1,5 +1,5 @@
 /* 字卡 / 聊天站 Service Worker — 支持安装为 App、离线打开、通知 */
-const CACHE = 'puyu-v1';
+const CACHE = 'puyu-v2-fullscreen';
 const PRECACHE = [
   './',
   './index.html',
@@ -66,9 +66,28 @@ self.addEventListener('notificationclick', (event) => {
   event.waitUntil(
     self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
       for (const client of list) {
-        if ('focus' in client) return client.focus();
+        if ('focus' in client) { return client.focus().then(() => { if (event.notification.data && event.notification.data.url && 'navigate' in client) return client.navigate(event.notification.data.url); }); }
       }
-      if (self.clients.openWindow) return self.clients.openWindow('./');
+      if (self.clients.openWindow) return self.clients.openWindow((event.notification.data && event.notification.data.url) || './');
     })
   );
+});
+
+
+// 接收真实 Web Push 服务端发送的推送。仅有此监听器不会自行产生后台字卡；
+// 仍需客户端订阅 PushManager，并由服务端向订阅端点发送 push。
+self.addEventListener('push', (event) => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; }
+  catch (_) { data = { body: event.data ? event.data.text() : '' }; }
+  const title = String(data.title || '知念易杳');
+  const options = {
+    body: String(data.body || data.text || '有新的字卡消息'),
+    icon: './icon-192.png',
+    badge: './icon-192.png',
+    tag: data.tag ? String(data.tag) : 'puyu-push',
+    data: { url: data.url || './' },
+    renotify: true
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
 });

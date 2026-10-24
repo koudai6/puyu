@@ -1200,9 +1200,18 @@ function stopKeep(){
 }
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&G.sys.keepAlive&&keepAudio&&keepAudio.paused)keepAudio.play().catch(()=>{})});
 async function askNotify(){
-  if(!('Notification' in window)){toast('当前环境不支持通知');return false}
-  const p=Notification.permission==='granted'?'granted':await Notification.requestPermission();
-  if(p!=='granted'){toast('通知权限未允许，请到系统设置里开启');return false}
+  if(!('Notification' in window)||typeof Notification.permission!=='string'||typeof Notification.requestPermission!=='function'){
+    toast('当前网页容器未开放网页通知接口。即使安卓系统已允许通知，也需要在 WebToApp 开启原生通知/网页通知桥接后才能使用。');
+    return false;
+  }
+  let p=Notification.permission;
+  if(p!=='granted'){
+    try{p=await Notification.requestPermission()}catch(e){p='denied'}
+  }
+  if(p!=='granted'){
+    toast(p==='denied'?'网页通知权限被浏览器或应用容器拒绝；请检查站点权限及 WebToApp 通知配置。':'尚未授予网页通知权限。');
+    return false;
+  }
   return true;
 }
 async function notify(title,body,tag,force){
@@ -1232,7 +1241,7 @@ function bgTab(body){
   const t=h('button','','发送测试弹窗（5 秒后，请切到后台或锁屏）');
   t.onclick=()=>{toast('5 秒后弹出');setTimeout(()=>notify('知念易杳','这是一条测试弹窗','test',true),5000)};
   body.append(t);
-  body.append(h('div','hint','通知仅在系统允许、通知权限已开启且页面仍能运行时触发。静音音频保活不能保证 Android 不会暂停或结束网页进程；若 APK 的 WebView 不支持系统通知，需要在 APK 原生 Android 层实现通知桥接。')); 
+  body.append(h('div','hint','保活原理：循环播放一段听不见的静音音频，让系统把网页当成「正在播放音乐」，锁屏会出现播放卡片（显示对方头像、昵称和状态），对方的延迟回复才能在后台照常触发。iOS 随时可能回收，不能保证一直在线；开着会多耗一点电，不用时记得关闭。'));
 }
 
 /* ========== 锁屏：键盘弹出也不让页面晃动，禁止双指缩放 ========== */
@@ -1649,8 +1658,12 @@ function applyCardImport(payload,mode){
     map[g.name]=x.id;
   });
   (inCards||[]).forEach(c=>{
-    if(!c||c.content==null||c.content==='')return;
-    const content=String(c.content);
+    if(!c)return;
+    // 兼容不同备份版本：有的使用 content，有的使用 text/value。
+    const rawContent=c.content!=null?c.content:(c.text!=null?c.text:(c.value!=null?c.value:c.card));
+    if(rawContent==null||rawContent==='')return;
+    const content=String(rawContent).trim();
+    if(!content)return;
     const type=normalizeCardType(c.type,content);
     if(!['text','emoji','image','status','pat'].includes(type))return;
     let gid='public';
@@ -1661,7 +1674,7 @@ function applyCardImport(payload,mode){
     existingKeys.add(key);
     const k=mk(type,content,gid);k.enabled=c.enabled!==false;S.cards.push(k);n++;
   });
-  // 导入后清除旧筛选条件，避免新字卡被旧分组/搜索条件隐藏。
+  // 导入后清除旧筛选条件，避免分组已导入但字卡列表看似空白。
   V.group='all';V.type='all';V.q='';V.sel.clear();V.multi=false;
   save();renderCards();
   const parts=['已导入 '+n+' 张字卡'];
@@ -1895,9 +1908,7 @@ function deliverLetter(ct,l){
   if(view==='mail'&&G.cur===ct.id)renderMail();
   if(view==='list')renderList();
   refreshBadges();
-  // 页面在后台时，将本次系统生成的来信内容放进 Android/Web 通知正文。
-  const preview=(l.paras||[]).join(' ').replace(/\s+/g,' ').trim();
-  notify(ct.profile.name,preview.slice(0,180)||(l.reply?'给你回了一封信':'给你寄来一封信'),'letter-'+ct.id+'-'+l.id);
+  notify(ct.profile.name,l.reply?'给你回了一封信':'给你寄来一封信');
   if(view==='chat'&&ct===cur())toast(ct.profile.name+' 给你寄来一封信');
 }
 function checkLetters(){

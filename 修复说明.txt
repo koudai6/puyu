@@ -1,0 +1,15 @@
+知念易杳：全屏 PWA + 字卡导入修复包
+
+本包包含：
+1. manifest.json：针对 https://koudai6.github.io/puyu/ 配置 fullscreen / standalone 安装模式。
+2. index.html：字卡导入兼容 content/text/value 字段；导入后重置筛选，避免只看到分组；对不支持网页通知的 WebView 显示更明确的提示。
+3. sw.js：更新缓存版本，并接收由真实 Web Push 服务端发送的 push 事件。
+
+部署方式：
+- 将 puyu-main/ 目录中的文件覆盖到 GitHub 仓库对应的 puyu/ 网站目录，提交并等待 GitHub Pages 更新。
+- Android Chrome 清理该网站的旧安装/站点数据后重新访问 https://koudai6.github.io/puyu/，在菜单选择“安装应用”。若安装条件满足，应以独立窗口打开；fullscreen 的支持取决于浏览器版本/安装模式。
+
+重要限制：
+- Service Worker 的 push 监听器本身不会创造推送；后台收到真正的 Web Push 需要 PushManager 订阅和服务端发送流程。当前包不包含推送服务器。
+- 此 ZIP 是网站源码，不是重新编译的 APK。要修复 WebToApp APK 的系统通知，必须在 WebToApp 构建配置中启用原生通知/网页通知桥接并重新构建；仅有 APK 二进制无法可靠补入原生权限桥接，也不能在这里声称已编译或真机验证。
+- 静音音频保活不保证 Android 一直允许后台执行；系统省电策略可能暂停页面。
